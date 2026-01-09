@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidade - Trilha da Raposa</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: '#4CAF50',
+                        wood: '#795548',
+                        woodDark: '#5D4037',
+                        vibrant: '#FF9800',
+                    },
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                        display: ['Luckiest Guy', 'cursive'] 
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#e8f5e9] text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Header Simples -->
+    <header class="bg-forest py-6 shadow-md">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-4xl font-display text-white tracking-wider drop-shadow-md">
+                TRILHA DA RAPOSA
+            </h1>
+            <a href="index.html" class="inline-block mt-2 text-white/80 hover:text-white text-sm font-bold underline transition-colors">
+                ← Voltar para o Início
+            </a>
+        </div>
+    </header>
+
+    <!-- Conteúdo da Política -->
+    <main class="flex-grow container mx-auto px-4 py-10 max-w-4xl">
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-xl border-b-4 border-wood/20">
+            
+            <h2 class="text-3xl font-display text-woodDark mb-6 text-center">POLÍTICA DE PRIVACIDADE</h2>
+            
+            <div class="bg-sky-50 p-4 rounded-xl border border-sky-100 mb-8 text-sm text-gray-600">
+                <p><strong>Aplicativo:</strong> Trilha da Raposa</p>
+                <p><strong>Desenvolvedor(a):</strong> Jessica Silva Rios</p>
+                <p><strong>Última atualização:</strong> 09 de Janeiro de 2026</p>
+            </div>
+
+            <div class="space-y-8 text-gray-700 leading-relaxed">
+                
+                <!-- 1. Introdução -->
+                <section>
+                    <h3 class="text-xl font-bold text-woodDark mb-3">1. Introdução</h3>
+                    <p>
+                        Esta Política de Privacidade descreve como Jessica Silva Rios ("desenvolvedora", "nós") coleta, usa, armazena e protege as informações dos usuários ("você") ao utilizar o jogo <strong>Trilha da Raposa</strong>.
+                    </p>
+                    <p class="mt-2">
+                        Estamos comprometidos em proteger sua privacidade e em cumprir a Lei Geral de Proteção de Dados (LGPD - Brasil), o GDPR (Europa) e as Políticas de Família e Dados do Usuário do Google Play.
+                    </p>
+                </section>
+
+                <!-- 2. Dados que Coletamos -->
+                <section>
+                    <h3 class="text-xl font-bold text-woodDark mb-3">2. Dados que Coletamos</h3>
+                    <p>
+                        Para o funcionamento correto do jogo, utilizamos serviços de terceiros que podem coletar informações técnicas usadas para identificar seu dispositivo. Não coletamos dados pessoais sensíveis (como endereço residencial, CPF ou telefone) diretamente.
+                    </p>
+                    
+                    <h4 class="font-bold text-wood mt-4 mb-2">A. Dados Coletados Automaticamente</h4>
+                    <p>Podemos coletar determinadas informações automaticamente através de parceiros, incluindo:</p>
+                    <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+                        <li>Tipo de dispositivo móvel e modelo.</li>
+                        <li>Versão do sistema operacional.</li>
+                        <li>Identificadores únicos de dispositivo (Advertising ID).</li>
+                        <li>Endereço IP (protocolo de internet).</li>
+                        <li>Dados de falhas e desempenho (Logs de Crash).</li>
+                    </ul>
+
+                    <h4 class="font-bold text-wood mt-4 mb-2">B. Dados de Autenticação</h4>
+                    <p>
+                        O aplicativo utiliza serviços de autenticação para gerenciar o progresso do usuário.
+                        <br>
+                        <strong>Login:</strong> Coletamos apenas um ID de usuário único e criptografado gerado pelo provedor de autenticação para salvar seu progresso, moedas e itens.
+                    </p>
+                </section>
+
+                <!-- 3. Uso de Serviços de Terceiros -->
+                <section>
+                    <h3 class="text-xl font-bold text-woodDark mb-3">3. Uso de Serviços de Terceiros</h3>
+                    <p>Este aplicativo utiliza bibliotecas de terceiros ("SDKs") que possuem suas próprias Políticas de Privacidade:</p>
+                    <ul class="list-disc list-inside ml-4 mt-2 space-y-2">
+                        <li>
+                            <strong>Google AdMob:</strong> Usado para exibir anúncios. O AdMob pode usar o identificador do seu dispositivo para exibir anúncios personalizados.
+                            <br>
+                            <a href="https://policies.google.com/privacy" target="_blank" class="text-forest hover:underline text-sm break-all">https://policies.google.com/privacy</a>
+                        </li>
+                        <li>
+                            <strong>Firebase (Analytics & Crashlytics):</strong> Usado para entender como o usuário interage com o app e monitorar erros.
+                            <br>
+                            <a href="https://firebase.google.com/support/privacy" target="_blank" class="text-forest hover:underline text-sm break-all">https://firebase.google.com/support/privacy</a>
+                        </li>
+                        <li>
+                            <strong>Google Play Services:</strong> Usado para processar pagamentos e autenticação segura.
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- 4. Compras no Aplicativo (IAP) -->
+                <section>
+                    <h3 class="text-xl font-bold text-woodDark mb-3">4. Compras no Aplicativo (IAP)</h3>
+                    <p>O "Trilha da Raposa" oferece bens virtuais para compra.</p>
+                    <p class="mt-2">
+                        <strong>Transações:</strong> Todas as transações financeiras são processadas exclusivamente pela infraestrutura segura da Google Play Store. A desenvolvedora não tem acesso, não coleta e não armazena dados do seu cartão de crédito ou informações bancárias.
+                    </p>
+                </section>
+
+                <!-- 5. Finalidade do Tratamento de Dados -->
+                <section>
+                    <h3 class="text-xl font-bold text-woodDark mb-3">5. Finalidade do Tratamento de Dados</h3>
+                    <p>Utilizamos os dados técnicos coletados para:</p>
+                    <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+                        <li><strong>Fornecer o Serviço:</strong> Permitir que você jogue e salve seu progresso.</li>
+                        <li><strong>Melhoria do Produto:</strong> Corrigir bugs e falhas reportadas automaticamente.</li>
+                        <li><strong>Monetização:</strong> Exibir publicidade para manter o acesso ao jogo gratuito.</li>
+                    </ul>
+                </section>
+
+                <!-- 6. Retenção e Exclusão de Dados -->
+                <section>
+                    <h3 class="text-xl font-bold text-woodDark mb-3">6. Retenção e Exclusão de Dados</h3>
+                    
+                    <h4 class="font-bold text-wood mt-4 mb-2">A. Retenção</h4>
+                    <p>Os dados associados à sua conta de jogo são mantidos enquanto você utilizar o aplicativo ou até que solicite a exclusão.</p>
+
+                    <h4 class="font-bold text-wood mt-4 mb-2">B. Como Excluir seus Dados</h4>
+                    <p>Você tem o direito de solicitar a exclusão total de seus dados e conta a qualquer momento:</p>
+                    <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+                        <li><strong>No App:</strong> Acesse Configurações > Deletar Conta. Esta ação remove seu progresso e moedas permanentemente.</li>
+                        <li><strong>Por E-mail:</strong> Envie uma solicitação para o e-mail de suporte abaixo com o assunto "Exclusão de Dados - Trilha da Raposa".</li>
+                    </ul>
+                </section>
+
+                <!-- 7. Privacidade de Crianças -->
+                <section>
+                    <h3 class="text-xl font-bold text-woodDark mb-3">7. Privacidade de Crianças</h3>
+                    <p>
+                        Este aplicativo segue as diretrizes da Política para Famílias do Google Play. Os anúncios exibidos são configurados para serem apropriados para a classificação indicativa do jogo. Não coletamos intencionalmente informações pessoais identificáveis de crianças.
+                    </p>
+                </section>
+
+                <!-- 8. Segurança -->
+                <section>
+                    <h3 class="text-xl font-bold text-woodDark mb-3">8. Segurança</h3>
+                    <p>
+                        Empregamos medidas de segurança, incluindo o uso de comunicação criptografada (HTTPS) entre o aplicativo e nossos servidores/parceiros, para proteger suas informações.
+                    </p>
+                </section>
+
+                <!-- 9. Contato -->
+                <section>
+                    <h3 class="text-xl font-bold text-woodDark mb-3">9. Contato</h3>
+                    <p>Para dúvidas sobre esta Política de Privacidade ou solicitações relacionadas à LGPD:</p>
+                    <div class="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <p><strong>Desenvolvedora:</strong> Jessica Silva Rios</p>
+                        <p><strong>E-mail de Suporte:</strong> <a href="mailto:contato@trilhadaraposa.game" class="text-forest font-bold hover:underline">contato@trilhadaraposa.game</a></p>
+                        <p class="text-xs text-gray-400 mt-2 italic">(Substitua pelo seu e-mail real antes de publicar)</p>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-woodDark py-6 text-center text-white/40 text-sm">
+        <div class="container mx-auto">
+            <p>Trilha da Raposa © 2026. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

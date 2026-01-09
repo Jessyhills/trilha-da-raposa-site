@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilha da Raposa - Aventura Match-2</title>
+    
+    <!-- 1. Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuração do Tema Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: '#4CAF50',
+                        wood: '#795548',
+                        woodDark: '#5D4037',
+                        vibrant: '#FF9800',
+                        vibrantDark: '#F57C00',
+                        sky: '#E0F7FA'
+                    },
+                    fontFamily: {
+                        sans: ['Nunito', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        display: ['Luckiest Guy', 'cursive', 'sans-serif'] 
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Customizado e Animações Avançadas */
+        body {
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+            background-color: #e8f5e9; /* Fundo base suave */
+        }
+
+        h1, h2, h3, .btn-text {
+            font-family: 'Luckiest Guy', cursive;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .text-cartoon-brown {
+            color: #793602;
+            text-shadow: 2px 2px 0px #ffffff;
+            -webkit-text-stroke: 2px #793602;
+            paint-order: stroke fill;
+        }
+
+        /* Botões 3D (Affordance Maxima) */
+        .btn-3d {
+            transition: all 0.1s;
+            position: relative;
+            top: 0;
+        }
+        .btn-3d:active {
+            transform: translateY(6px);
+            box-shadow: none !important;
+        }
+
+        /* Sprite Sheet Animation Class */
+        .fox-sprite {
+            width: 128px;
+            height: 128px;
+            background-image: url('assets/images/fox_jump_sprite.png');
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            display: inline-block;
+        }
+
+        .animate-fox-jump {
+            animation: foxJump 1s steps(8) forwards;
+        }
+
+        @keyframes foxJump {
+            from { background-position: 0 0; }
+            to { background-position: -1024px 0; }
+        }
+
+        /* Partículas de Explosão */
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: explode 0.8s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Elementos Flutuantes (Gems) */
+        .floating-item {
+            cursor: pointer;
+            transition: transform 0.2s;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+        }
+        .floating-item:hover {
+            transform: scale(1.1);
+        }
+
+        /* Parallax Container */
+        .parallax-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        .parallax-layer .interactive {
+            pointer-events: auto;
+        }
+
+        /* FAQ Accordion Item */
+        .faq-item details > summary {
+            list-style: none;
+        }
+        /* Texto Cartoon (Stroke + Shadow) */
+        .text-cartoon {
+            color: #6a2805; /* Cor do Stroke */
+            -webkit-text-stroke: 6px #6a2805; /* Espessura aumentada */
+            position: relative;
+            z-index: 10;
+            paint-order: stroke fill;
+        }
+
+        /* Camada de Gradiente (Overlay - Top) */
+        .text-cartoon::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            background: linear-gradient(180deg, #facc22 0%, #ffa800 100%); /* Amarelo -> Laranja Claro */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 0;
+        }
+
+        /* Camada de Sombra (Background - Bottom) */
+        .text-cartoon::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            color: #3E2723;
+            -webkit-text-stroke: 6px #3E2723; /* Acompanha a espessura do stroke */
+        }
+
+        /* Texto Cartoon Pequeno (Para +100 Níveis) */
+        .text-cartoon-sm {
+            color: #6a2805;
+            -webkit-text-stroke: 6px #6a2805; /* Stroke aumentado para igualar o Hero */
+            position: relative;
+            z-index: 10;
+            paint-order: stroke fill;
+            font-family: 'Luckiest Guy', cursive;
+        }
+
+        .text-cartoon-sm::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            background: linear-gradient(180deg, #facc22 0%, #ffa800 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 0;
+        }
+
+        .text-cartoon-sm::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 4px; /* Offset igualado ao Hero */
+            top: 4px;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            color: #3E2723;
+            -webkit-text-stroke: 6px #3E2723; /* Stroke da sombra igualado */
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- CAMADA PARALLAX (Fundo) -->
+    <div id="parallax-bg" class="parallax-layer">
+        <img src="assets/images/gem_red.png" 
+             class="floating-item interactive absolute top-20 left-[10%] w-16 animate-float drop-shadow-[0_0_15px_rgba(244,67,54,0.6)]" 
+             data-speed="0.2" alt="Joia Vermelha">
+             
+        <img src="assets/images/leaf_green.png" 
+             class="floating-item interactive absolute top-40 right-[15%] w-12 animate-float blur-[1px]" 
+             style="animation-delay: 1s;"
+             data-speed="0.3" alt="Folha">
+
+        <img src="assets/images/gem_blue.png" 
+             class="floating-item interactive absolute top-[40vh] left-[5%] w-20 animate-float drop-shadow-[0_0_15px_rgba(33,150,243,0.6)] blur-[2px]" 
+             style="animation-delay: 2s;"
+             data-speed="0.1" alt="Joia Azul">
+
+        <img src="assets/images/mushroom_brown.png" 
+             class="floating-item interactive absolute top-[70vh] right-[10%] w-20 animate-float" 
+             style="animation-delay: 0.5s;"
+             data-speed="0.4" alt="Cogumelo">
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="relative z-10">
+
+        <!-- 1. HERO SECTION -->
+        <section class="min-h-screen flex items-center justify-center p-6 overflow-hidden relative">
+            
+            <!-- BACKGROUND PARALLAX -->
+            <div id="hero-parallax-bg" class="absolute top-0 left-0 w-full h-[120%] bg-[url('assets/images/hero_bg_forest.jpg')] bg-cover bg-center bg-no-repeat pointer-events-none -z-10 will-change-transform"></div>
+
+            <div class="container mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 z-10 pt-10 md:pt-0">
+                
+                <!-- COLUNA ESQUERDA: Copy + CTA -->
+                <div class="flex flex-col items-center w-full max-w-lg md:w-1/2 flex-shrink-0 z-20">
+                    
+                    <!-- PLACA DE MADEIRA (Headline + Sub-headline) -->
+                    <div class="relative w-full transform hover:scale-105 transition-transform duration-300 mb-6">
+                        <img src="assets/images/modal_loja.png" alt="Placa de Madeira" class="w-full h-auto drop-shadow-2xl">
+                        
+                        <div class="absolute inset-0 flex flex-col items-center justify-center p-8 md:p-12 text-center">
+                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-wider leading-tight mb-2 text-cartoon" data-text="COMBINE, EXPLODA E RELAXE!">
+                                COMBINE, EXPLODA E RELAXE!
+                            </h1>
+                            <p class="text-sm md:text-base text-woodDark font-black font-sans opacity-90 leading-snug drop-shadow-sm">
+                                Desafie sua lógica no puzzle mais vibrante da floresta.
+                            </p>
+                        </div>
+                    </div>
+                        
+                    <!-- Container CTA + Prova Social (Side by Side) -->
+                    <div class="flex flex-col lg:flex-row items-center gap-5 mt-2 w-full justify-center">
+                        
+                        <!-- CTA Principal -->
+                        <a href="#" class="relative w-72 shrink-0 block transition-transform hover:scale-105 active:scale-95 group">
+                            <img src="assets/images/Large_button.png" alt="Botão Google Play" class="w-full filter drop-shadow-lg group-hover:brightness-110">
+                            <div class="absolute inset-0 flex items-center justify-center gap-3 p-3">
+                                <!-- Icone Google Play -->
+                                <svg class="w-8 h-8 fill-white drop-shadow-md" viewBox="0 0 512 512">
+                                    <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l220.7-221.3-60.1-60.1L47 499z"/>
+                                </svg>
+                                <!-- Texto -->
+                                <div class="flex flex-col items-start text-white drop-shadow-md text-left leading-none">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider opacity-90 mb-0.5">Disponível no</span>
+                                    <span class="text-xl font-display">Google Play</span>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <!-- Micro-copy (Prova Social) -->
+                        <div class="flex flex-col items-center justify-center w-64 md:w-72 shrink-0 transform hover:scale-105 transition-transform duration-300 text-center">
+                            <p class="leading-none">
+                                <span class="text-cartoon-sm text-2xl md:text-3xl block tracking-wide mb-1" data-text="+100 NÍVEIS">
+                                    +100 NÍVEIS
+                                </span>
+                                <span class="block text-white font-black text-[10px] md:text-xs uppercase tracking-wider drop-shadow-md">
+                                    DE PURO DESAFIO E DIVERSÃO.
+                                </span>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- COLUNA DIREITA: Smartphone -->
+                <div class="relative w-full md:w-1/2 flex justify-center md:justify-end z-20">
+                    <div class="relative transform transition-transform hover:scale-105 duration-500">
+                         <img src="assets/images/smartphone.gif" 
+                              alt="Gameplay no Smartphone" 
+                              class="w-64 md:w-80 lg:w-96 drop-shadow-2xl animate-float"
+                              style="animation-duration: 4s;">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/90 animate-pulse text-sm font-bold drop-shadow-md">
+                👇 Role para descobrir a magia
+            </div>
+        </section>
+
+        <!-- 2. SEÇÃO DO DESAFIO (Hook) -->
+        <section class="py-20 px-4 text-white relative border-t-4 border-vibrant bg-cover bg-center bg-no-repeat" style="background-image: url('assets/images/bg_2.png');">
+            <div class="max-w-4xl mx-auto text-center relative z-10">
+                <h2 class="text-3xl md:text-5xl font-display mb-6 text-cartoon-brown leading-relaxed tracking-wide">
+                    Apenas 3% dos jogadores dominam a estratégia da Raposa.
+                </h2>
+                <p class="text-lg md:text-xl font-sans leading-relaxed text-[#793602] font-bold max-w-3xl mx-auto">
+                    Não é apenas sobre combinar peças. É sobre <span class="text-vibrant font-black">antecipar movimentos</span>, criar combos explosivos e superar obstáculos que ficam mais inteligentes a cada nível. 
+                    <br><br>
+                    <span class="font-black text-[#793602] border-b-2 border-vibrant">Você faz parte da elite ou vai ficar no nível 1?</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. SEÇÃO DE BENEFÍCIOS (Cards) -->
+        <section class="py-20 px-4 bg-fixed bg-center bg-cover bg-no-repeat" style="background-image: url('assets/images/bg3.png');">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Visual Imersivo -->
+                <div class="p-8 rounded-3xl transform hover:-translate-y-2 transition-transform bg-center bg-no-repeat bg-contain flex flex-col items-center text-center" style="background-image: url('assets/images/modal_cave.png'); min-height: 320px;">
+                    <div class="mt-2 mb-2 text-5xl drop-shadow-md">🎨</div>
+                    <h3 class="text-2xl font-bold mb-3 text-cartoon" data-text="Visual Imersivo">Visual Imersivo</h3>
+                    <p class="text-[#512c0f] font-bold font-sans px-10 drop-shadow-sm text-sm leading-tight">Gráficos polidos e animações satisfatórias que transformam cada combinação em um show de cores.</p>
+                </div>
+
+                <!-- Treino Cognitivo -->
+                <div class="p-8 rounded-3xl transform hover:-translate-y-2 transition-transform delay-100 bg-center bg-no-repeat bg-contain flex flex-col items-center text-center" style="background-image: url('assets/images/modal_cave.png'); min-height: 320px;">
+                    <div class="mt-2 mb-2 text-5xl drop-shadow-md">🧠</div>
+                    <h3 class="text-2xl font-bold mb-3 text-cartoon" data-text="Treino Cognitivo">Treino Cognitivo</h3>
+                    <p class="text-[#512c0f] font-bold font-sans px-10 drop-shadow-sm text-sm leading-tight">Uma forma leve e viciante de manter seu cérebro ativo enquanto você relaxa na fila do banco ou no café.</p>
+                </div>
+
+                <!-- Progresso Real -->
+                <div class="p-8 rounded-3xl transform hover:-translate-y-2 transition-transform delay-200 bg-center bg-no-repeat bg-contain flex flex-col items-center text-center" style="background-image: url('assets/images/modal_cave.png'); min-height: 320px;">
+                    <div class="mt-2 mb-2 text-5xl drop-shadow-md">🚀</div>
+                    <h3 class="text-2xl font-bold mb-3 text-cartoon" data-text="Progresso Real">Progresso Real</h3>
+                    <p class="text-[#512c0f] font-bold font-sans px-10 drop-shadow-sm text-sm leading-tight">Conquiste itens raros, suba no ranking e ajude a nossa raposinha a completar sua jornada épica.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. FOOTER & CTA FINAL -->
+        <footer class="text-white py-16 text-center relative overflow-hidden bg-cover bg-center bg-no-repeat" style="background-image: url('assets/images/bg4.png');">
+            <!-- Brilho de fundo -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-vibrant/10 to-transparent pointer-events-none"></div>
+
+            <div class="container mx-auto px-4 relative z-10">
+                <h2 class="text-3xl md:text-5xl font-display mb-8 leading-tight">
+                    A floresta está te esperando.<br>Aceita o desafio?
+                </h2>
+
+                <div class="flex flex-col md:flex-row justify-center items-center gap-6 mb-12">
+                    <!-- Botão Google Play (Large Style) -->
+                    <a href="#" class="relative w-72 shrink-0 block transition-transform hover:scale-105 active:scale-95 group">
+                        <img src="assets/images/Large_button.png" alt="Botão Google Play" class="w-full filter drop-shadow-lg group-hover:brightness-110">
+                        <div class="absolute inset-0 flex items-center justify-center gap-3 p-3">
+                            <!-- Icone Google Play -->
+                            <svg class="w-8 h-8 fill-white drop-shadow-md" viewBox="0 0 512 512">
+                                <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l220.7-221.3-60.1-60.1L47 499z"/>
+                            </svg>
+                            <!-- Texto -->
+                            <div class="flex flex-col items-start text-white drop-shadow-md text-left leading-none">
+                                <span class="text-[10px] font-bold uppercase tracking-wider opacity-90 mb-0.5">Disponível no</span>
+                                <span class="text-xl font-display">Google Play</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <p class="text-white/40 text-sm font-sans">
+                    Trilha da Raposa © 2026. Diversão inteligente em cada toque.
+                    <br>
+                    <a href="privacy.html" class="underline hover:text-white/60 transition-colors">Política de Privacidade</a>
+                </p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- SCRIPTS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. SISTEMA DE PARALLAX
+            const parallaxItems = document.querySelectorAll('.floating-item');
+            
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                
+                parallaxItems.forEach(item => {
+                    const speed = parseFloat(item.getAttribute('data-speed') || 0.1);
+                    item.style.transform = `translateY(${scrollY * speed}px)`;
+                });
+            });
+
+            // 2. SISTEMA DE PARTÍCULAS
+            parallaxItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    createExplosion(e.clientX, e.clientY, getComputedStyle(item).backgroundColor);
+                    
+                    item.style.opacity = '0';
+                    item.style.pointerEvents = 'none';
+                    
+                    setTimeout(() => {
+                        item.style.transition = 'opacity 0.5s';
+                        item.style.opacity = '1';
+                        item.style.pointerEvents = 'auto';
+                    }, 2000);
+                });
+            });
+
+            function createExplosion(x, y, color) {
+                const particleCount = 12;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    document.body.appendChild(particle);
+
+                    const startY = y + window.scrollY;
+                    
+                    particle.style.left = `${x}px`;
+                    particle.style.top = `${startY}px`;
+                    particle.style.backgroundColor = 'gold';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 50 + Math.random() * 100; 
+                    
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
+
+                    particle.style.setProperty('--tx', `${tx}px`);
+                    particle.style.setProperty('--ty', `${ty}px`);
+                    
+                    const colors = ['#FF9800', '#4CAF50', '#FFEB3B', '#FFFFFF'];
+                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                    particle.addEventListener('animationend', () => {
+                        particle.remove();
+                    });
+                }
+            }
+
+            // 3. TRIGGER DA ANIMAÇÃO DA RAPOSA (Intersection Observer)
+            const foxElement = document.getElementById('fox-character');
+            const mascotSection = document.getElementById('mascot-section');
+
+            const observerOptions = {
+                root: null, 
+                threshold: 0.5 
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if(foxElement) foxElement.classList.add('animate-fox-jump');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            if(mascotSection) observer.observe(mascotSection);
+
+            // 4. PARALLAX DO FUNDO HERO (Fallback simples)
+            const heroBg = document.getElementById('hero-parallax-bg');
+            if (heroBg) {
+                window.addEventListener('scroll', () => {
+                    const scrollY = window.scrollY;
+                    heroBg.style.transform = `translateY(${scrollY * 0.5}px)`;
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>
